@@ -1,20 +1,11 @@
-# Secretos y configuración local
 .env
-
-# Datos (pueden contener PII de clientes reales)
 data/*.csv
 !data/.gitkeep
-
-# Logs
 logs/*.log
 !logs/.gitkeep
-
-# Python
 __pycache__/
 *.pyc
 .venv/
 venv/
 *.egg-info/
-
-# Editor
 .vscode/
