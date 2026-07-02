@@ -1,7 +1,3 @@
-"""
-Capa de acceso a base de datos.
-No contiene credenciales ni nombres de servidor: todo viene de config/settings.py
-"""
 import pyodbc
 
 from config.settings import (
@@ -30,7 +26,6 @@ def _build_conn_str() -> str:
 
 
 def get_connection():
-    """Abre una conexión nueva. Lanza una excepción clara si falla."""
     try:
         return pyodbc.connect(_build_conn_str())
     except pyodbc.Error as ex:
@@ -39,19 +34,9 @@ def get_connection():
 
 
 def exec_sp(cursor, sp_name: str, params: tuple = ()) -> dict:
-    """
-    Ejecuta un stored procedure de forma segura.
-
-    Seguridad:
-    - sp_name se valida contra una whitelist (ALLOWED_SPS) antes de interpolarse
-      en el SQL. Esto evita SQL injection por nombre de procedimiento, incluso
-      si en el futuro sp_name llegara a depender de un input externo.
-    - Los parámetros del SP siempre se pasan vía placeholders (?), nunca concatenados.
-    """
     if sp_name not in ALLOWED_SPS:
         raise ValueError(
-            f"Stored procedure '{sp_name}' no está en la whitelist ALLOWED_SPS. "
-            f"Agrégalo en .env si es intencional."
+            f"Stored procedure '{sp_name}' no está en la whitelist ALLOWED_SPS."
         )
 
     placeholders = ", ".join(["?"] * len(params)) if params else ""
