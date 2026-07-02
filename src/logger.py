@@ -1,12 +1,8 @@
-"""
-Logging centralizado. Reemplaza todos los print() del proyecto.
-"""
 import logging
 import sys
 from datetime import datetime
 
 from config.settings import LOG_DIR, LOG_LEVEL
-
 
 def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
@@ -22,7 +18,6 @@ def get_logger(name: str) -> logging.Logger:
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    # Consola
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setFormatter(formatter)
     logger.addHandler(console_handler)
